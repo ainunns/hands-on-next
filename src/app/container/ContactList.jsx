@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import ContactItem from "../../components/ContactItem";
 import * as React from "react";
 
@@ -39,14 +38,13 @@ export default function ContactList() {
       <h2 className="text-neutral-950 text-2xl font-semibold">Contact List</h2>
       <div className="flex flex-col gap-4">
         {contacts.map((contact) => (
-          <Link href={`/${contact.id}`} key={contact.id}>
-            <ContactItem
-              id={contact.id}
-              name={contact.name}
-              email={contact.email}
-              imgUrl={contact.img_url}
-            />
-          </Link>
+          <ContactItem
+            id={contact.id}
+            name={contact.name}
+            email={contact.email}
+            imgUrl={contact.img_url}
+            key={contact.id}
+          />
         ))}
       </div>
     </section>
