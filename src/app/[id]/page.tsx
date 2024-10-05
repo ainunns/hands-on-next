@@ -3,39 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
+import { useGetDetailContact } from "../hooks/query";
 
-export default function DetailPage({ params: { id } }) {
-  const [detail, setDetail] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/contacts/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setDetail(data.data);
-      } catch (error) {
-        setError(error);
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id]);
+export default function DetailPage({ params }: { params: { id: string } }) {
+  const {
+    contactDetail: detail,
+    isLoading,
+    isError,
+  } = useGetDetailContact(params.id);
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (isError) return <p>Error: {isError}</p>;
   if (!detail) return <p>No data found</p>;
 
   return (
